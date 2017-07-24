@@ -1,5 +1,11 @@
 'use strict';
-class ANode {
+
+import Point from './Point.js';
+import Heap from './Heap.js';
+import Path from './Path.js';
+
+
+export class ANode {
     constructor(parent, point, f = 0, g = 0) {
         this.parent = parent;
         this.point = point;
@@ -194,3 +200,5 @@ class Astar {
         this.search(dt);
     }
 }
+
+export default Astar;

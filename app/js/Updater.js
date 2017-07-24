@@ -1,3 +1,7 @@
+'use strict';
+
+import DoublyLinkedList from './DoublyLinkedList.js';
+
 class Updater {
     constructor() {
         this.lastTime = Date.now();
@@ -33,3 +37,5 @@ class Updater {
         }
     }
 }
+
+export default Updater;

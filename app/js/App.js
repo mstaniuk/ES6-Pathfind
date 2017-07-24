@@ -1,4 +1,12 @@
 'use strict';
+import Astar from './Astar.js';
+import Grid from './Grid.js';
+import Mouse from './Mouse.js';
+import Renderer from './Renderer.js';
+import Updater from './Updater.js';
+import Block from './Block.js';
+import Point from './Point.js';
+
 class App {
     constructor() {
         this.setCanvas();
@@ -38,7 +46,8 @@ class App {
         this.mouse.setOnPositionChangeHandler(() => {
             if (this.mouse.isPressed) {
                 let pos = Mouse.pxToNode(this.mouse.x, this.mouse.y);
-                let gnode = this.grid.getNodeAt(pos.x, pos.y)
+                let gnode = this.grid.getNodeAt(pos.x, pos.y);
+                if (typeof gnode === 'undefined') return;
                 gnode.payload.isObstacle = true;
 
                 if (typeof gnode.payload.block === 'undefined') {
@@ -78,3 +87,5 @@ App.states = {
     PATHFINDING: 'PATHFINDING',
     PAUSED: 'PAUSED'
 }
+
+export default App;

@@ -1,3 +1,7 @@
+'use strict';
+
+import App from './App.js';
+
 class Mouse {
     constructor(canvas) {
         this.canvas = canvas;
@@ -64,3 +68,5 @@ class Mouse {
         }
     }
 }
+
+export default Mouse;

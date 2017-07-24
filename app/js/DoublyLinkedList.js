@@ -1,4 +1,5 @@
-class ListNode {
+'use strict';
+export class ListNode {
     constructor(data, prev = null, next = null) {
         this.data = data;
         this.prev = prev;
@@ -95,3 +96,5 @@ class DoublyLinkedList {
     }
 
 }
+
+export default DoublyLinkedList;

@@ -1,3 +1,8 @@
+'use strict';
+
+import App from './App.js';
+import Grid from './Grid.js';
+
 class Block {
     constructor(x, y, style) {
         this.x = x;
@@ -24,3 +29,5 @@ class Block {
         ctx.fillRect(pos.x, pos.y, size, size);
     }
 }
+
+export default Block;

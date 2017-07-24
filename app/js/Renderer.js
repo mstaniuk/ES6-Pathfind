@@ -1,3 +1,5 @@
+import DoublyLinkedList from './DoublyLinkedList.js';
+
 class Renderer {
     constructor(ctx) {
         this.ctx = ctx;
@@ -28,3 +30,5 @@ class Renderer {
         }
     }
 }
+
+export default Renderer;

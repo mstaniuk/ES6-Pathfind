@@ -1,3 +1,6 @@
+'use strict';
+import Grid from './Grid.js';
+
 class Path {
     constructor() {
         this.path = [];
@@ -27,3 +30,5 @@ class Path {
         ctx.stroke();
     }
 }
+
+export default Path;

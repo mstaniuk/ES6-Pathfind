@@ -1,11 +1,15 @@
 'use strict';
-class GNode {
+
+import App from './App.js';
+
+export class GNode {
     constructor(x, y, payload) {
         this.x = x;
         this.y = y;
         this.payload = payload;
     }
 }
+
 class Grid {
     constructor(width = 32, height = 32) {
         this.width = width;
@@ -59,3 +63,5 @@ class Grid {
         }
     }
 }
+
+export default Grid;
