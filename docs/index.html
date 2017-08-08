@@ -1,0 +1,70 @@
+<!DOCTYPE>
+<html>
+
+<head>
+    <title>AStar pathfind demo</title>
+    <meta name="description" content="A* pathfind demo">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="MobileOptimized" content="width">
+    <meta name="HandheldFriendly" content="true">
+    <meta name="web_author" content="Mateusz Staniuk">
+    <meta name="designer" content="Mateusz Staniuk">
+    <meta http-equiv="x-ua-compatible" content="IE=edge">
+    <meta name="msapplication-tap-highlight" content="no">
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+    <link href="./main.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <header class="site-header">
+        <h1 class="site-header__title">A* pathfind demo</h1>
+    </header>
+    <div>
+        <div id="app"></div>
+        <button id="pathfind">Search by astar</button>
+        <button class="setStart" disabled>Set Start Point</button>
+        <button class="setEnd" disabled>Set End Point</button>
+        <button class="clear" disabled>Clear paths</button>
+        <button class="reset" disabled>Reset map</button>
+        <button class="invert" disabled>Invert map</button>
+    </div>
+
+    <div id="summary">
+        <ul>
+            <li>
+                Mouse
+                <span id="mouseStatus"></span>
+            </li>
+            <li>
+                Pathfinding
+                <ul>
+                    <li>
+                        Status:
+                        <span id="pathfindStatus"></span>
+                    </li>
+                    <li>
+                        Last pathfind time:
+                        <span id="pathfindLastTime"></span>
+                    </li>
+                    <li>
+                        Last pathfind in frames:
+                        <span id="pathfindLastTimeInFrames"></span>
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <div>Rendering</div>
+                <ul>
+                    <li>
+                        Rendered blocks:
+                        <span id="renderedBlocksCount"></span>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+    <script src="./app.js"></script>
+</body>
+
+</html>
