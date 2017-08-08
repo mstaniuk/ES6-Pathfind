@@ -8,12 +8,12 @@ class Block {
         this.x = x;
         this.y = y;
         this.style = style;
-        this.scale = 2;
+        this.scale = 2.5;
         this.idDone = false;
     }
 
     update(dt) {
-        this.scale -= dt / 100;
+        this.scale -= dt / 200;
         if (this.scale <= 1) {
             this.scale = 1;
             this.isDone = true;

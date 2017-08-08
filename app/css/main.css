@@ -1,3 +1,32 @@
-canvas {
-    display: block;
+:root {
+    --header-background: #222;
+    --border-color: #555;
+    --color-white: #FFF;
+}
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Lato'
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 300;
+}
+
+.site-header {
+    background-color: var(--header-background);
+    padding: 10px;
+    border-bottom: 4px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.site-header__title {
+    color: var(--color-white);
 }

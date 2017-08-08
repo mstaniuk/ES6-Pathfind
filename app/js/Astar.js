@@ -29,6 +29,7 @@ class Astar {
         this.isPaused = false;
         this.isPathFound = false;
         this.path = new Path();
+        this.time = 0;
 
 
         this.onSearchDoneCallback = () => {};
@@ -43,6 +44,11 @@ class Astar {
 
         this.openList = new Heap((a, b) => a.f < b.f);
         this.openList.push(new ANode(null, this.startPoint));
+        this.isDone = false;
+        this.isPaused = false;
+        this.isPathFound = false;
+        this.path = new Path();
+        this.time = 0;
     }
 
     validate() {
@@ -76,10 +82,7 @@ class Astar {
         for (let i = -1; i < 2; i++) {
             for (let j = -1; j < 2; j++) {
 
-                if (i === 0 && j === 0) {
-                    continue;
-                }
-
+                if (i === 0 && j === 0) continue;
                 let x = node.point.x + i;
                 let y = node.point.y + j;
                 let gridNode = this.grid.getNodeAt(x, y);
@@ -142,15 +145,16 @@ class Astar {
             return null;
         }
 
-        if (this.startPoint === null || this.endPoint === null) return null;
+        if (this.startPoint === null || this.endPoint === null) {
+            this.onPathNotFound();
+            return null;
+        }
+
 
         while (!this.openList.isEmpty()) {
 
-            if (Date.now() - timer > 5) {
-                return null;
-            }
-
-            if (this.isPaused === true) {
+            if (Date.now() - timer > 5 || this.isPaused === true) {
+                this.time += Date.now() - timer;
                 return null;
             }
 
@@ -163,7 +167,8 @@ class Astar {
                 let successor = successors[i];
 
                 if (Point.isEqual(successor.point, this.endPoint)) {
-                    this.onPathFound(successor)
+                    this.onPathFound(successor);
+                    this.time += Date.now() - timer;
                     return successor;
                 }
 
@@ -180,6 +185,7 @@ class Astar {
             this.closedList[parentNode.id] = parentNode;
         }
         this.onPathNotFound();
+        this.time += Date.now() - timer;
         return null;
     }
 
@@ -198,6 +204,10 @@ class Astar {
 
     update(dt) {
         this.search(dt);
+    }
+
+    getTime() {
+        return this.time;
     }
 }
 

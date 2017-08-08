@@ -3,11 +3,12 @@
 import App from './App.js';
 
 class Mouse {
-    constructor(canvas) {
+    constructor(canvas, statusManager) {
         this.canvas = canvas;
         this.x = 0;
         this.y = 0;
         this.isPressed = false;
+        this.statusManager = statusManager;
         this.clickCallback = function() {};
         this.positionChangeCallback = function() {};
         this.setEvents();
@@ -30,14 +31,17 @@ class Mouse {
     }
 
     onDown(event) {
+        this.statusManager.mouseStatus = "Down";
         this.isPressed = true;
     }
 
     onUp(event) {
+        this.statusManager.mouseStatus = "Up";
         this.isPressed = false;
     }
 
     onOut(event) {
+        this.statusManager.mouseStatus = "Up";
         this.isPressed = false;
     }
 

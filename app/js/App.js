@@ -6,15 +6,18 @@ import Renderer from './Renderer.js';
 import Updater from './Updater.js';
 import Block from './Block.js';
 import Point from './Point.js';
+import StatusManager from './StatusManager.js';
 
 class App {
     constructor() {
         this.setCanvas();
         this.setGrid();
-        this.mouse = new Mouse(this.canvas);
+        this.statusManages = new StatusManager();
+        this.mouse = new Mouse(this.canvas, this.statusManages);
         this.renderer = new Renderer(this.ctx);
         this.updater = new Updater();
-        this.state = App.states.DRAWING;
+        this.dom = {};
+        this.blocksCount = 0;
         this.init();
 
         this.loop();
@@ -28,19 +31,43 @@ class App {
         this.canvas.height = 500;
 
         this.canvas.style.border = '1px solid black';
-
-        document.body.appendChild(this.canvas);
     }
 
     setGrid() {
         this.grid = new Grid(100, 100);
     }
 
+    updateStatus() {
+        this.dom.mouseStatus.innerHtml = this.states.mouse;
+        this.dom.mouseStatus.pathfindStatus = this.states.mouse;
+    }
+
+    getDomElements() {
+        let dom = {};
+        dom.app = document.getElementById('app');
+        dom.pathfindButton = document.getElementById('pathfind');
+        return dom;
+    }
+
     init() {
+        this.dom = this.getDomElements();
+        this.dom.app.appendChild(this.canvas);
+
+        // Start Point
+        let startNode = this.grid.getNodeAt(0, 0);
+        startNode.payload.block = new Block(startNode.x, startNode.y, 'RGBA(0,255,0,0.5)');
+        this.updater.push(startNode.payload.block);
+        this.renderer.push(startNode.payload.block);
+
+        // End Point
+        let endNode = this.grid.getNodeAt(99, 99);
+        endNode.payload.block = new Block(endNode.x, endNode.y, 'RGBA(0,0,255,0.5)');
+        this.updater.push(endNode.payload.block);
+        this.renderer.push(endNode.payload.block);
+
         this.mouse.setOnClickHandler(() => {
             let pos = Mouse.pxToNode(this.mouse.x, this.mouse.y);
             this.grid.getNodeAt(pos.x, pos.y).payload.isObstacle = true;
-
         });
 
         this.mouse.setOnPositionChangeHandler(() => {
@@ -54,19 +81,24 @@ class App {
                     gnode.payload.block = new Block(pos.x, pos.y, 'RGBA(255,0,0,0.5)');
                     this.updater.push(gnode.payload.block);
                     this.renderer.push(gnode.payload.block);
+                    this.statusManages.renderedBlocksCount = ++this.blocksCount;
                 }
             }
         });
 
-        document.getElementsByClassName('js-search')[0].addEventListener('click', () => {
-
+        this.dom.pathfindButton.addEventListener('click', () => {
+            this.statusManages.pathfindStatus = "Seatching";
             let astar = new Astar(this.grid, new Point(0, 0), new Point(99, 99), this.ctx);
 
             astar.searchDoneHandler = (astar) => {
+                this.statusManages.pathfindLastTime = astar.getTime() + 'ms';
+                this.statusManages.pathfindLastTimeInFrames = parseInt(astar.getTime() / 5) + 'f';
+
                 if (astar.isPathFound === true) {
+                    this.statusManages.pathfindStatus = "Path found";
                     this.renderer.push(astar.path);
                 } else {
-                    console.log('path not found');
+                    this.statusManages.pathfindStatus = "Path not found";
                 }
             }
             this.updater.push(astar)
@@ -82,10 +114,5 @@ class App {
 }
 
 App.nodeSize = 5;
-App.states = {
-    DRAWING: 'DRAWING',
-    PATHFINDING: 'PATHFINDING',
-    PAUSED: 'PAUSED'
-}
 
 export default App;
